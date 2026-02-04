@@ -4,7 +4,7 @@ import './components/PDFViewer.css'
 import './App.css'
 
 function App() {
-  const [selectedFile, setSelectedFile] = useState('/mirador-los-volcanes.pdf')
+  const [selectedFile, setSelectedFile] = useState('https://www.lanube360.com/pdf/mirador-los-volcanes-panguipulli.pdf')
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
