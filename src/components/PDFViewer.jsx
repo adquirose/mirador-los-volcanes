@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
+import { LinearProgress, Box, Typography } from '@mui/material';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
@@ -21,6 +22,7 @@ const PDFViewer = ({ file }) => {
   const [scale, setScale] = useState(1.0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   const containerRef = useRef(null);
 
   // Detectar si es dispositivo móvil
@@ -46,6 +48,14 @@ const PDFViewer = ({ file }) => {
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
     setLoading(false);
+    setLoadingProgress(100);
+  };
+
+  const onDocumentLoadProgress = ({ loaded, total }) => {
+    if (total > 0) {
+      const progress = Math.round((loaded / total) * 100);
+      setLoadingProgress(progress);
+    }
   };
 
   const goToPrevPage = () => {
@@ -170,11 +180,35 @@ const PDFViewer = ({ file }) => {
         }}
         onTouchEnd={handleTouchEnd}
       >
-        {loading && <div className="loading">Cargando PDF...</div>}
+        {loading && (
+          <div className="loading">
+            <Box sx={{ width: '100%', maxWidth: 400, margin: '0 auto' }}>
+              <Typography variant="h6" component="div" sx={{ color: '#fff', mb: 2, textAlign: 'center' }}>
+                🌋 Cargando PDF...
+              </Typography>
+              <LinearProgress 
+                variant="determinate" 
+                value={loadingProgress} 
+                sx={{ 
+                  height: 8, 
+                  borderRadius: 4,
+                  backgroundColor: 'rgba(255,255,255,0.1)',
+                  '& .MuiLinearProgress-bar': {
+                    backgroundColor: '#007acc',
+                  }
+                }}
+              />
+              <Typography variant="body2" sx={{ color: '#ccc', textAlign: 'center', mt: 1 }}>
+                {loadingProgress}%
+              </Typography>
+            </Box>
+          </div>
+        )}
         
         <Document
           file={file}
           onLoadSuccess={onDocumentLoadSuccess}
+          onLoadProgress={onDocumentLoadProgress}
           loading=""
           error="Error al cargar el PDF"
         >
