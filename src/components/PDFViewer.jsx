@@ -3,11 +3,8 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
-// Configurar worker de PDF.js para que use la misma versión
-// En producción, usar un worker que permita CORS
-pdfjs.GlobalWorkerOptions.workerSrc = import.meta.env.DEV
-  ? `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
-  : `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+// Configurar worker de PDF.js usando unpkg que tiene mejor disponibilidad CORS
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 const PDFViewer = ({ file }) => {
   const [numPages, setNumPages] = useState(null);
