@@ -3,8 +3,17 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
-// Configurar worker de PDF.js usando unpkg que tiene mejor disponibilidad CORS
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+// Configurar worker de PDF.js para evitar CORS en desarrollo
+if (import.meta.env.DEV) {
+  // En desarrollo, usar worker desde node_modules para evitar CORS
+  pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    'pdfjs-dist/build/pdf.worker.min.mjs',
+    import.meta.url
+  ).toString();
+} else {
+  // En producción, usar unpkg
+  pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+}
 
 const PDFViewer = ({ file }) => {
   const [numPages, setNumPages] = useState(null);
