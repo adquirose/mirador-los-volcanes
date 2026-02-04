@@ -26,3 +26,6 @@ dist-ssr
 
 # Large PDF files
 public/*.pdf
+
+# Apache configuration files
+.htaccess
