@@ -4,7 +4,12 @@ import './components/PDFViewer.css'
 import './App.css'
 
 function App() {
-  const [selectedFile, setSelectedFile] = useState('/api/pdf/mirador-los-volcanes-panguipulli.pdf')
+  // Usar proxy en desarrollo, URL directa en producción
+  const pdfUrl = import.meta.env.DEV 
+    ? '/api/pdf/mirador-los-volcanes-panguipulli.pdf'
+    : 'https://www.lanube360.com/pdf/mirador-los-volcanes-panguipulli.pdf';
+    
+  const [selectedFile, setSelectedFile] = useState(pdfUrl)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
