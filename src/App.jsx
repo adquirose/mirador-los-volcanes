@@ -4,10 +4,10 @@ import './components/PDFViewer.css'
 import './App.css'
 
 function App() {
-  // Usar proxy en desarrollo, URL directa en producción
+  // Usar proxy en desarrollo, URL directa en producción (con CORS configurado en servidor)
   const pdfUrl = import.meta.env.DEV 
-    ? '/api/pdf/mirador-los-volcanes-panguipulli.pdf'  // Proxy para evitar CORS en desarrollo
-    : 'https://www.lanube360.com/pdf/mirador-los-volcanes-panguipulli.pdf'; // URL directa en producción
+    ? '/api/pdf/mirador-los-volcanes-panguipulli.pdf'  // Proxy Vite en desarrollo
+    : 'https://www.lanube360.com/pdf/mirador-los-volcanes-panguipulli.pdf';  // URL directa con CORS configurado
     
   const [selectedFile, setSelectedFile] = useState(pdfUrl)
   const [isLoading, setIsLoading] = useState(true)
