@@ -11,8 +11,8 @@ if (import.meta.env.DEV) {
     import.meta.url
   ).toString();
 } else {
-  // En producción, usar unpkg
-  pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+  // En producción, usar jsDelivr que tiene mejor soporte CORS
+  pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 }
 
 const PDFViewer = ({ file }) => {
